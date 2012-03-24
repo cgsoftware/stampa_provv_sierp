@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="trasportatore" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="206"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dadata" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="adata" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="carrier" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT
+     tempstatistiche_proviggioni."id" AS tempstatistiche_proviggioni_id,
+     tempstatistiche_proviggioni."create_uid" AS tempstatistiche_proviggioni_create_uid,
+     tempstatistiche_proviggioni."create_date" AS tempstatistiche_proviggioni_create_date,
+     tempstatistiche_proviggioni."write_date" AS tempstatistiche_proviggioni_write_date,
+     tempstatistiche_proviggioni."write_uid" AS tempstatistiche_proviggioni_write_uid,
+     tempstatistiche_proviggioni."prov" AS tempstatistiche_proviggioni_prov,
+     tempstatistiche_proviggioni."imponibile" AS tempstatistiche_proviggioni_imponibile,
+     tempstatistiche_proviggioni."name" AS tempstatistiche_proviggioni_name,
+     fiscaldoc_header."numdoc" AS fiscaldoc_header_numdoc,
+     fiscaldoc_header."totale_documento" AS fiscaldoc_header_totale_documento,
+     fiscaldoc_header."data_documento" AS fiscaldoc_header_data_documento,
+     res_partner."name" AS res_partner_name,
+     sale_agent."name" AS sale_agent_name,
+     fiscaldoc_header."name" AS fiscaldoc_header_name,
+     res_partner_A."name" AS res_partner_A_name,
+     tempstatistiche_proviggioni."perc" AS tempstatistiche_proviggioni_perc,
+     account_payment_term."name" AS account_payment_term_name
+FROM
+     "public"."fiscaldoc_header" fiscaldoc_header RIGHT OUTER JOIN "public"."tempstatistiche_proviggioni" tempstatistiche_proviggioni ON fiscaldoc_header."id" = tempstatistiche_proviggioni."name"
+     LEFT OUTER JOIN "public"."res_partner" res_partner ON fiscaldoc_header."partner_id" = res_partner."id"
+     LEFT OUTER JOIN "public"."account_payment_term" account_payment_term ON fiscaldoc_header."pagamento_id" = account_payment_term."id"
+     LEFT OUTER JOIN "public"."sale_agent" sale_agent ON res_partner."agent_id" = sale_agent."id"
+     LEFT OUTER JOIN "public"."res_partner" res_partner_A ON sale_agent."partner_id" = res_partner_A."id"
+ORDER BY
+     fiscaldoc_header."numdoc" ASC]]>
+	</queryString>
+	<field name="tempstatistiche_proviggioni_id" class="java.lang.Integer"/>
+	<field name="tempstatistiche_proviggioni_create_uid" class="java.lang.Integer"/>
+	<field name="tempstatistiche_proviggioni_create_date" class="java.sql.Timestamp"/>
+	<field name="tempstatistiche_proviggioni_write_date" class="java.sql.Timestamp"/>
+	<field name="tempstatistiche_proviggioni_write_uid" class="java.lang.Integer"/>
+	<field name="tempstatistiche_proviggioni_prov" class="java.math.BigDecimal"/>
+	<field name="tempstatistiche_proviggioni_imponibile" class="java.math.BigDecimal"/>
+	<field name="tempstatistiche_proviggioni_name" class="java.lang.Integer"/>
+	<field name="fiscaldoc_header_numdoc" class="java.lang.Integer"/>
+	<field name="fiscaldoc_header_totale_documento" class="java.math.BigDecimal"/>
+	<field name="fiscaldoc_header_data_documento" class="java.sql.Date"/>
+	<field name="res_partner_name" class="java.lang.String"/>
+	<field name="sale_agent_name" class="java.lang.String"/>
+	<field name="fiscaldoc_header_name" class="java.lang.String"/>
+	<field name="res_partner_a_name" class="java.lang.String"/>
+	<field name="tempstatistiche_proviggioni_perc" class="java.math.BigDecimal"/>
+	<field name="account_payment_term_name" class="java.lang.String"/>
+	<variable name="somma" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{tempstatistiche_proviggioni_prov}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="48" splitType="Stretch">
+			<staticText>
+				<reportElement x="745" y="0" width="32" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pag.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="777" y="0" width="25" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="15" width="128" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provviggioni agente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="15" width="33" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[dal]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="310" y="15" width="81" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{dadata}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="391" y="15" width="33" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[al]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="424" y="15" width="81" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{adata}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="15" width="155" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_partner_a_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="128" height="15"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIERP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="242" height="15"/>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Data e Numero Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="30" width="191" height="15"/>
+				<textElement textAlignment="Left">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="649" y="33" width="82" height="15"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Imponibile]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="731" y="33" width="71" height="15"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Proviggione]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="538" y="33" width="82" height="15"/>
+				<textElement textAlignment="Center">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Percentuale ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="391" y="33" width="147" height="15"/>
+				<textElement textAlignment="Left">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Pagamento]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="65" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{fiscaldoc_header_data_documento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="0" width="177" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fiscaldoc_header_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="649" y="0" width="82" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{tempstatistiche_proviggioni_imponibile}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="731" y="0" width="71" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{tempstatistiche_proviggioni_prov}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="191" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_partner_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="538" y="0" width="82" height="15"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{tempstatistiche_proviggioni_perc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="391" y="0" width="147" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{account_payment_term_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="34">
+			<staticText>
+				<reportElement x="511" y="12" width="148" height="20" forecolor="#FF0600"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Totale GENERALE]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="659" y="12" width="143" height="20" forecolor="#FF0600"/>
+				<textElement textAlignment="Right">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{somma}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
